@@ -21,6 +21,7 @@ endif
 #
 $(sysconfdir)/%.xml:	%.xml;	$(INSTALL_DATA) $? $@
 $(libdir)/%.xml:	%.xml;	$(INSTALL_DATA) $? $@
+$(archdir)/%.xml:	%.xml;	$(INSTALL_DATA) $? $@
 
 #
 # install-xml: --Install XML files to datadir.

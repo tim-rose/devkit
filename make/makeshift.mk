@@ -171,7 +171,7 @@ clean:	clean-makeshift
 .PHONY:	clean-makeshift
 clean-makeshift:
 	$(ECHO_TARGET)
-	$(RM) core *~ *.bak *.tmp *.out $(OS.AUTO_CLEAN) $(ARCH.AUTO_CLEAN)  $(PROJECT.AUTO_CLEAN)
+	$(RM) *~ *.bak *.tmp *.out $(OS.AUTO_CLEAN) $(ARCH.AUTO_CLEAN)  $(PROJECT.AUTO_CLEAN)
 
 #
 # distclean: --Remove artefacts that makeshift creates/updates.

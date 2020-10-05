@@ -36,16 +36,19 @@ H++_SUFFIX ?= h
 PROTOBUF_C++ = $(PROTOBUF_SRC:%.proto=$(gendir)/%.pb.$(C++_SUFFIX))
 PROTOBUF_H++ = $(PROTOBUF_SRC:%.proto=$(gendir)/%.pb.$(H++_SUFFIX))
 PROTOBUF_PY = $(PROTOBUF_SRC:%.proto=$(gendir)/%.py)
-PROTOBUF_TRG  = $(PROTOBUF_C++) $(PROTOBUF_H++) $(PROTOBUF_PY)
+PROTOBUF_CS = $(PROTOBUF_SRC:%=%.cs)
+PROTOBUF_TRG  = $(PROTOBUF_C++) $(PROTOBUF_H++) $(PROTOBUF_PY) \
+	$(PROTOBUF_CS)
 
 .PRECIOUS: $(PROTOBUF_TRG)
 
-ifdef o
-PROTOBUF_OBJ = $(PROTOBUF_SRC:%.proto=$(archdir)/%.pb.$(o))
-endif
-ifdef s.o
-PROTOBUF_PIC_OBJ += $(PROTOBUF_SRC:%.proto=$(archdir)/%.pb.$(s.o))
-endif
+## this should move to c.mk or c++.k; it breaks non-C builds
+#ifdef o
+#PROTOBUF_OBJ = $(PROTOBUF_SRC:%.proto=$(archdir)/%.pb.$(o))
+#endif
+#ifdef s.o
+#PROTOBUF_PIC_OBJ += $(PROTOBUF_SRC:%.proto=$(archdir)/%.pb.$(s.o))
+#endif
 
 #
 # %.pb.cc: --build the C++ stubs from a ".proto" file.
@@ -77,6 +80,14 @@ $(gendir)/%.py:	%.proto | $(gendir)
 	$(ECHO_TARGET)
 	$(PROTOC) $(PROTOBUF_FLAGS) --python_out=$(gendir) $<
 	cd $(gendir); $(MV) $*_pb2.py $*.py
+
+#
+# pattern to generate a .proto.cs from a .proto file
+# this uses protobuf-net rather protobuf-csharp-port
+# TODO: these should go in $(gendir), but i'm not sure how to
+# reference them in Visual Studio.
+%.proto.cs: %.proto
+	$(PROTOC) -i:$< -o:$@ $(PROTOBUF_FLAGS)
 
 #
 # build: --Build the protobuf files.

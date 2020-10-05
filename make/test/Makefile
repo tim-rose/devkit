@@ -5,7 +5,7 @@
 # This directory contains some helper rules for various
 # test frameworks.
 #
-MK_SRC = google.mk phpunit.mk pytest.mk tap.mk
+MK_SRC = google.mk nunit.mk phpunit.mk pytest.mk tap.mk
 subdir	= test
 
 include makeshift.mk

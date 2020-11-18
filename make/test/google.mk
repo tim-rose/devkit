@@ -5,7 +5,7 @@
 # The googletest rules assume that you're developing C++ code, and
 # make reference to `make` variables defined in the lang/c++ module.
 #
-GTEST_LIBS = gtest_main gtest dl util
+GTEST_LIBS = gtest_main gtest
 TEST_XML ?= google-tests.xml
 TEST_EXE = $(archdir)/googletest
 
@@ -15,9 +15,9 @@ ALL_GTEST_FLAGS = $(TARGET.GTEST_FLAGS) $(LOCAL.GTEST_FLAGS) \
 
 build: $(TEST_EXE)
 
-$(TEST_EXE):	$(C++_OBJ) $(GTEST_LIBS:%=-l%)
+$(TEST_EXE):	$(C++_OBJ) 
 	$(ECHO_TARGET)
-	$(LD) $(ALL_LDFLAGS) -o $@ $^ $(ALL_LDLIBS)
+	$(LD) $(ALL_LDFLAGS) -o $@ $^ $(ALL_LDLIBS) $(GTEST_LIBS:%=-l%)
 
 #
 # google-test: --Run googletest with arch defined in the environment.
